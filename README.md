@@ -54,6 +54,12 @@ See [Architecture](docs/architecture.md) for component roles and data flows.
 
 The validation record distinguishes observed results from assumptions and future work: [Validation](docs/validation.md).
 
+## Infrastructure Monitoring Dashboard
+
+![Grafana Infrastructure Overview](assets/screenshots/grafana-infrastructure-overview.png)
+
+*Infrastructure Overview dashboard showing Proxmox node availability and resource utilization, ZFS pool health, redundant DNS status, network traffic, and backup freshness. Metrics are collected through Prometheus and presented in Grafana.*
+  
 ## Documentation
 
 | Document | Contents |
