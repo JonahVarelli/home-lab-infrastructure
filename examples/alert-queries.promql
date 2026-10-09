@@ -1,0 +1,35 @@
+# Selected PromQL patterns from the lab monitoring work.
+# These examples are sanitized and illustrative. They are NOT a full Grafana
+# alert-rule export or a set of production configuration files.
+# Evaluate each expression in Explore before using it as an alert rule.
+
+# ZFS pool health: return one value even if the health metric is absent.
+min(homelab_truenas_pool_healthy{pool="tank"}) or vector(0)
+
+# ZFS pool allocated percentage. Aggregate before the missing-data fallback.
+max(100 * homelab_truenas_pool_allocated_bytes{pool="tank"} / homelab_truenas_pool_size_bytes{pool="tank"}) or vector(999)
+
+# TrueNAS collector age (minutes). Missing timestamp becomes an obvious sentinel.
+((time() - max(homelab_truenas_collector_timestamp_seconds)) / 60) or vector(999)
+
+# Latest backup-job result (success=1); no data defaults to 0.
+min(homelab_proxmox_backup_job_success) or vector(0)
+
+# Age of the oldest reported successful backup (hours).
+(max(time() - homelab_proxmox_backup_last_success_timestamp_seconds) / 3600) or vector(999)
+
+# Number of distinct backup guest IDs with a success timestamp.
+# This generic count is NOT a substitute for matching a fixed list of expected IDs.
+count(count by (vmid) (homelab_proxmox_backup_last_success_timestamp_seconds)) or vector(0)
+
+# Backup collector age (minutes).
+((time() - max(homelab_proxmox_backup_collector_timestamp_seconds)) / 60) or vector(999)
+
+# Shared AdGuard exporter scrape status (assumes job label is configured).
+min(up{job="adguard-exporter"}) or vector(0)
+
+# Count healthy resolver signals from the shared exporter (not proof of DNS reachability).
+sum(adguard_running{job="adguard-exporter"}) or vector(0)
+
+# WARNING: Don't append `or vector(999)` directly to a labeled capacity
+# expression. The unmatched fallback can become a second, falsely firing series.
