@@ -59,6 +59,12 @@ The validation record distinguishes observed results from assumptions and future
 ![Grafana Infrastructure Overview](assets/screenshots/grafana-infrastructure-overview.png)
 
 *Infrastructure Overview dashboard showing Proxmox node availability and resource utilization, ZFS pool health, redundant DNS status, network traffic, and backup freshness. Metrics are collected through Prometheus and presented in Grafana.*
+
+### Rack Status Dashboard
+
+![Grafana Rack Status Dashboard](assets/screenshots/grafana-rack-status.png)
+
+*Compact Grafana dashboard designed for a planned 9-inch rack-mounted display. The layout provides at-a-glance visibility into firewall and Proxmox availability, ZFS pool health, DNS redundancy, backup status, resource utilization, and network activity. The dashboard layout was validated at a 1280 × 720 viewport.*
   
 ## Documentation
 
